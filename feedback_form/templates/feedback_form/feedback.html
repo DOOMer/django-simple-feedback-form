@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans "Feedback" %}</h1>
+<p>{% trans "All fields are <b><u>required</u></b>." %}</p>
+{% if messages %}<div id="feedback_done">
+    <ul>		
+{% for message in messages %}<li>{{ message }}</li>		{% endfor %}	
+</ul>
+</div>{% endif %}
+<form action="" method="post">{% csrf_token %}
+    {#<p>{{ form.as_ul }}</p>#}
+    {# Include the hidden fields #}
+    {% for hidden in form.hidden_fields %} {{ hidden }}{% endfor %}
+    {# Include the visible fields #}
+    {% for field in form.visible_fields %}
+		<div class="feedback_error">{{ field.errors }}</div>
+		{% if field.html_name == "body" %}
+		<div class="feedback_textarea_wrapper">
+		{% else %}
+		<div class="feedback_input_wrapper">
+		{% endif %}			
+			<div class="feedback_label_input">
+			{{ field.label_tag }}:
+			</div>
+			<div class="feedback_{{ field.html_name }}">            
+             {{ field }}
+			</div>
+        </div>
+    {% endfor %}
+    <div id="feedback_submit"><input id="feedback_submit_button" type="submit" value="{% trans "Send!" %}" /></div>
+</form>
+{% endblock %}
+

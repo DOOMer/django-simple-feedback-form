@@ -1,0 +1,16 @@
+{% load i18n %}
+{% trans "You have receive a contact request." %}
+
+{% trans "Name" %}: {{ name }}
+{% trans "Email" %}: {{ email }}
+{% trans "Subject" %}: {{ subject }}
+-------
+{% trans "Message" %}: {{ body }}
+-------
+{% if meta %}
+
+META:
+{% for key, value in meta.items %} {{ key }}: {{ value }}
+{% endfor %}
+
+{% endif %}

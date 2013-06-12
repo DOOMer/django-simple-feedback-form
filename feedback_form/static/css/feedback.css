@@ -1,0 +1,107 @@
+# css for feedback
+
+/*.feedback_error ul */
+.feedback_error {
+	
+}
+
+.errorlist li {
+	margin: 0.3em 35% 0;
+	padding: 0.1em 0;
+	width:30%;
+	color: red;
+	text-align:center;
+	text-weight: bold;
+	border: 1px solid red;
+	background-color: #FFCCCC; 
+}
+
+.feedback_input_wrapper, .feedback_textarea_wrapper {
+	width:100%;	
+	margin-bottom: 0.5em;
+}
+
+.feedback_textarea_wrapper {	
+	text-align:center;
+}
+
+#feedback_submit {
+	width:20%;
+		;
+	margin: 0 40%;
+}
+
+#feedback_submit_button
+{	
+	aligh:center;
+	width:100%;
+}
+
+.feedback_label_input {
+	width:50%;
+	display:inline;
+}
+
+/* #feedback_email, #feedback_name, #feedback_subject, #feedback_body */
+.feedback_email, .feedback_name, .feedback_subject
+{
+/*	text-aligh: right;
+	float:right;
+	color: black; */
+	
+	display:inline;
+}
+
+
+#id_email, #id_name, #id_subject
+{
+	width:50%;
+}
+
+#id_email, #id_name, #id_subject, #id_body
+{
+	border-color:silver;
+	background-color:silver;
+}
+
+#id_body { 
+	width:75%;
+	height:12em;
+	margin: 0 12%;
+}
+
+
+label[for="id_subject"], label[for="id_name"], label[for="id_email"] {	
+	float: left;	
+	width:25%;
+	position: relative; /* выравниваем тексты меток и полей по одному уровню */
+	top: 5px; /* отступ сверху подбираем в зависимости от размера шрифта и дизайна полей */
+	text-align:right;	
+	
+	/* padding-left: 3em;
+	padding-right:0.25em; */
+}  
+
+label[for="id_body"] {
+	color:ref;
+	text-align:center;
+}
+
+#feedback_done {
+	width:50%;
+	margin: 1em 25%;;
+}
+
+#feedback_done ul {
+	list-style: none;
+	
+	border: 1px solid green;
+	background-color: #CCCC99; /*#99CC66; */
+	color: green; /*#FFFFFF; */
+	/* padding: 0.1em 1em; */
+	text-align:center;	
+}
+
+#feedback_done ul li {
+	padding: 0.25em 1em;
+}

@@ -20,7 +20,7 @@ class ContactFormMixin(object):
         return super(ContactFormMixin, self).form_valid(form)
 
     def get_success_url(self):		
-        return reverse("completed")
+        return reverse("feedback_form:completed")
 
 	def get_context_data(self, **kwargs):
 		context = super(ContactFormObject, self).get_context_data(**kwargs)

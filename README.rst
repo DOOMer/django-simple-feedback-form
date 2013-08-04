@@ -33,7 +33,7 @@ and add *'feedback_form.urls'* in your main usrs configuration::
   
 and add in your template add link to feedback view::
 
-  <a href="{% url 'feedback' %}">Feedback form</a>
+  <a href="{% url 'feedback_form:feedback' %}">Feedback form</a>
   
 And override the template "feedback_form/feedback.html" for your site.
 

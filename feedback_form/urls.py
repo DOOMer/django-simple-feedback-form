@@ -1,5 +1,4 @@
-
-from django.conf.urls.defaults import url, patterns
+from django.conf.urls import url, patterns
 from feedback_form import views
 
 urlpatterns = patterns('',

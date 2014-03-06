@@ -4,6 +4,11 @@ Django Simple Feedback Form
 
 This `Django <http://djangoproject.com>`_ app has for provide simple form for sending mail forom users to admins your django-based site.
 
+Requirements
+------------
+
+Django 1.6
+
 Installation 
 ------------
  

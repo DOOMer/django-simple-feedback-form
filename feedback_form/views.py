@@ -1,4 +1,3 @@
-
 from django.core.urlresolvers import reverse
 from django.views.generic import TemplateView, CreateView, FormView
 
@@ -23,7 +22,7 @@ class ContactFormMixin(object):
         return reverse("feedback_form:completed")
 
 	def get_context_data(self, **kwargs):
-		context = super(ContactFormObject, self).get_context_data(**kwargs)
+		context = super(ContactFormMixin, self).get_context_data(**kwargs)
 		return context
 	
 class ContactFormView(ContactFormMixin, FormView):

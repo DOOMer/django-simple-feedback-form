@@ -14,6 +14,6 @@ setup(
     license='LICENSE.txt',
     description='Simple feedback form for your django project.',
     long_description=open('README.rst').read(),
-    install_requires=["Django >= 1.3.0",],
+    install_requires=["Django >= 1.6.0",],
     include_package_data=True,
 )

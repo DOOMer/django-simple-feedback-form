@@ -7,7 +7,7 @@ This `Django <http://djangoproject.com>`_ app has for provide simple form for se
 Requirements
 ------------
 
-Django 1.6
+Django 3.0+
 
 Installation 
 ------------
@@ -18,7 +18,22 @@ Install into your python path using pip or github version::
 
 or::
   
-  pip install -e git://github.com/DOOMer/django-simple-feedback-form#egg=django-simple-feedback-form
+  pip install git+https://github.com/DOOMer/django-simple-feedback-form.git
+
+Preparing your project
+----------------------
+
+Add ADMINS list to your settings.py, like that:
+
+    ADMIN = [
+        ('John', 'john@example.com'), ('Mary', 'mary@example.com')
+    ]
+
+In addition, you can add MANAGERS list to your settings.py, like that^
+
+    MANAGERS = [
+        ('John', 'john@example.com'), ('Mary', 'mary@example.com')
+    ]
 
 Using in your project
 ---------------------
@@ -32,9 +47,9 @@ Add *'feedback_form'* to your INSTALLED_APPS in settings.py,
 
   )
   
-and add *'feedback_form.urls'* in your main usrs configuration::
+Add *'feedback_form.urls'* in your main urls configuration::
 
-  url(r'^feedback/', include("feedback_form.urls", namespace="feedback_form")),
+  path('feedback/', include("feedback_form.urls", namespace="feedback_form")),
   
 and add in your template add link to feedback view::
 

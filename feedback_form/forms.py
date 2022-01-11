@@ -1,63 +1,52 @@
+
 from django import forms
-from django.core.mail.message import EmailMessage
-from django.template import loader
-from django.utils.translation import ugettext_lazy as _
-from feedback_form.settings import *
-from django.contrib import messages
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
+from .conf import CONTACT_SEND_META_INFO
 
 
-class BaseEmailFormObject(object):
-    if CONTACT_ADMINS_ONLY:
-        recipient_list = [email for _, email in settings.ADMINS]
-    else:
-        recipient_list = [email for _, email in settings.MANAGERS]
+class ContactFormBase(forms.Form):
+    name = forms.CharField(label=_("Your name"), max_length=64)
+    subject = forms.CharField(label=_("Subject"), max_length=129)
+    email = forms.EmailField(label=_("Your email address"), max_length=200)
+    body = forms.CharField(label=_("Your message"),
+                           widget=forms.Textarea(attrs={'cols': '30', 'rows': '5'}))
 
+    # Non field members
+    from_email = settings.DEFAULT_FROM_EMAIL
     subject_template = 'feedback_form/email_subject.txt'
     message_template = 'feedback_form/email_template.txt'
     from_template = 'feedback_form/email_from.txt'
+    request_meta: dict = None  # request.META
 
-    def get_message(self):
-        return loader.render_to_string(self.message_template, self.get_context())
+    def __init__(self, request_meta, *args, **kwargs):
+        self.request_meta = request_meta
+        super().__init__(*args, **kwargs)
 
-    def get_from_email(self):
-        return loader.render_to_string(self.from_template, self.get_context())
+    def prepare_mail(self) -> dict:
+        mail_dict = {
+            'subject': self.get_subject(),
+            'message': self.get_message(),
+        }
+        return mail_dict
 
-    def get_subject(self):
-        subject = loader.render_to_string(self.subject_template, self.get_context())
-        return ''.join(subject.splitlines())
+    def get_subject(self) -> str:
+        return render_to_string(self.subject_template, {'subject': self.cleaned_data['subject'], })
 
-    def get_request_meta(self):
-        meta = {'UP': self.request.META['REMOTE_ADDR'], 'USER_AGENT': self.request.META['HTTP_USER_AGENT']}
+    def get_request_meta(self) -> dict:
+        meta = {'IP': self.request_meta['REMOTE_ADDR'], 'USER_AGENT': self.request_meta['HTTP_USER_AGENT']}
         return meta
 
-    def get_context(self):
-        if not self.is_valid():
-            raise ValueError("Cannot generate Context when form is invalid.")
-        data = self.cleaned_data
-        if CONTACT_SEND_META_INFO:
-            data['meta'] = self.get_request_meta()
-        return data
-
-    def get_message_dict(self):
-        return {
-            "from_email": self.get_from_email(),
-            "to": self.recipient_list,
-            "subject": self.get_subject(),
-            "body": self.get_message(),
+    def get_message(self) -> str:
+        message_context = {
+            'name': self.cleaned_data['name'],
+            'email': self.cleaned_data['email'],
+            'subject': self.get_subject().strip(),
+            'body': self.cleaned_data['body'],
         }
 
-    def send_email(self, request, fail_silently=False):
-        self.request = request
+        if CONTACT_SEND_META_INFO:
+            message_context['meta'] = self.get_request_meta()
 
-        if EmailMessage(**self.get_message_dict()).send(fail_silently=fail_silently):
-            messages.success(request, _('Message is sent successufully!'))
-
-
-class ContactForm(forms.Form, BaseEmailFormObject):
-    """
-	Subclass this and declare your own fields.
-	"""
-    name = forms.CharField(label=_(u'Your name'), max_length=64)
-    subject = forms.CharField(label=_(u'Subject'), max_length=128)
-    email = forms.EmailField(label=_(u'Your email address'), max_length=200)
-    body = forms.CharField(label=_(u'Your message'), widget=forms.Textarea(attrs={'cols': '30', 'rows': '5'}))
+        return render_to_string(self.message_template, message_context)

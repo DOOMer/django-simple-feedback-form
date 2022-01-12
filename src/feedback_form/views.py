@@ -1,5 +1,7 @@
 
+from django.conf import settings
 from django.contrib import messages
+from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import mail_admins, mail_managers
 from django.views.generic import FormView
 from django.urls import reverse_lazy
@@ -39,14 +41,43 @@ class FeedbackBaseView(FormView):
         return super().form_valid(form)
 
     def send_mail(self, data: dict):
-        if CONTACT_ADMINS_ONLY:
-            mail_admins(data['subject'], data['message'])
+        result, counts = self._check_receivers_list()
+
+        if result:
+            if CONTACT_ADMINS_ONLY:
+                if counts[0] > 0:
+                    mail_admins(data['subject'], data['message'])
+                else:
+                    self._raise_config_exception(counts)
+            else:
+                mail_managers(data['subject'], data['message'])
+            messages.success(self.request, self.get_success_message())
         else:
-            mail_managers(data['subject'], data['message'])
-        messages.success(self.request, self.get_success_message())
+            self._raise_config_exception(counts)
 
     def get_success_message(self) -> str:
         return self.success_message
+
+    def _check_receivers_list(self) -> (bool, (int, int, )):
+        """ Check settings ADMINS and MANAGERS is non empty """
+        admin = len(settings.ADMINS)
+        managers = len(settings.MANAGERS)
+
+        result = True if admin + managers > 0 else False
+        return result, (admin, managers, ),
+
+    def _raise_config_exception(self, counts: tuple):
+        """ Raise ImproperlyConfigured with messages about non configured ADMINS or MANAGERS lists """
+        r_substr = '__receivers__'
+        msg = f"You must add {r_substr} list variable in 'settings' module of your project."
+        if CONTACT_ADMINS_ONLY:
+            if counts[0] == 0:
+                msg = msg.replace(r_substr, 'ADMINS')
+        else:
+            if counts[0] + counts[1] == 0:
+                msg = msg.replace(r_substr, 'ADMINS or MANAGERS')
+
+        raise ImproperlyConfigured(msg)
 
 
 class FeedbackView(FeedbackBaseView):

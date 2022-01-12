@@ -1,3 +1,0 @@
-recursive-include feedback_form/static/css *
-recursive-include feedback_form/templates/feedback_form *
-include README.rst

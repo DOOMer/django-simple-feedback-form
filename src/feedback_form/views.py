@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import mail_admins, mail_managers
 from django.views.generic import FormView
-from django.urls import reverse_lazy
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from .conf import CONTACT_ADMINS_ONLY
 from .forms import ContactFormBase
@@ -25,7 +25,7 @@ class FeedbackBaseView(FormView):
     """
     form_class = ContactFormBase
     success_message = _("Message is sent successfully")
-    success_url = reverse_lazy('feedback-view')
+    success_url = 'feedback-view'
     template_name = "feedback_form/feedback.html"
 
     def get_form_kwargs(self):
@@ -57,6 +57,9 @@ class FeedbackBaseView(FormView):
 
     def get_success_message(self) -> str:
         return self.success_message
+
+    def get_success_url(self):
+        return reverse(self.success_url)
 
     def _check_receivers_list(self) -> (bool, (int, int, )):
         """ Check settings ADMINS and MANAGERS is non empty """

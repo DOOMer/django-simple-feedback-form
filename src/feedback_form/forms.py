@@ -14,10 +14,8 @@ class ContactFormBase(forms.Form):
                            widget=forms.Textarea(attrs={'cols': '30', 'rows': '5'}))
 
     # Non field members
-    from_email = settings.DEFAULT_FROM_EMAIL
     subject_template = 'feedback_form/email_subject.txt'
     message_template = 'feedback_form/email_template.txt'
-    from_template = 'feedback_form/email_from.txt'
     request_meta: dict = None  # request.META
 
     def __init__(self, request_meta, *args, **kwargs):

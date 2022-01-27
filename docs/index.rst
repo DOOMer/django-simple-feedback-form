@@ -10,11 +10,16 @@ This `Django <http://djangoproject.com>`_ app has for provide simple form for se
 
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
+   :caption: Basic:
 
    setup
    usage
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Advanced:
+
+   advanced
 
 Indices and tables
 ==================

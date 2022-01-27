@@ -20,6 +20,7 @@ This `Django <http://djangoproject.com>`_ app has for provide simple form for se
    :caption: Advanced:
 
    advanced
+   form
 
 Indices and tables
 ==================

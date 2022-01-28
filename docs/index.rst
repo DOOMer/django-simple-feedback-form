@@ -21,6 +21,8 @@ This `Django <http://djangoproject.com>`_ app has for provide simple form for se
 
    advanced
    form
+   view
+
 
 Indices and tables
 ==================

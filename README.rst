@@ -9,59 +9,25 @@ Requirements
 
 Django 3.0+
 
-Installation 
-------------
- 
-Install into your python path using pip or github version::
 
-  pip install django-simple-feedback-form
+Installation and configuration
+------------------------------
 
-or::
-  
-  pip install git+https://github.com/DOOMer/django-simple-feedback-form.git
+See `setup part`_ in documentation.
 
-Preparing your project
-----------------------
+.. _setup part: https://django-simple-feedback-form.readthedocs.io/en/latest/setup.html
 
-Add ADMINS list to your settings.py, like that:
+Usage
+-----
 
-    ADMIN = [
-        ('John', 'john@example.com'), ('Mary', 'mary@example.com')
-    ]
+See `usage part`_ in documentation.
 
-In addition, you can add MANAGERS list to your settings.py, like that^
+.. _usage part: https://django-simple-feedback-form.readthedocs.io/en/latest/usage.html
 
-    MANAGERS = [
-        ('John', 'john@example.com'), ('Mary', 'mary@example.com')
-    ]
 
-Using in your project
----------------------
-  
-Add *'feedback_form'* to your INSTALLED_APPS in settings.py,
+License
+-------
 
-  INSTALLED_APPS = (
-    ...
-    
-    'feedback_form',
+Licensed under BSD license. See `license link`_ in documentation.
 
-  )
-  
-Add *'feedback_form.urls'* in your main urls configuration::
-
-  path('feedback/', include("feedback_form.urls", namespace="feedback_form")),
-  
-and add in your template add link to feedback view::
-
-  <a href="{% url 'feedback_form:feedback-view' %}">Feedback form</a>
-  
-And override the template "feedback_form/feedback.html" for your site.
-
-Additional settings 
--------------------
-
-You can override these settings in your main settngs.py file:
-
-**CONTACT_ADMINS_ONLY** - send email only to users which added in ADMINS tuple. By default is enabled. If it is a disabled, send to MANAGERS mails too.
-
-**CONTACT_SEND_META_INFO**- send meta information about user (IP and user-agent). By default is disabled.
+.. _license link: LICENSE.rst

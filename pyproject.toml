@@ -31,7 +31,7 @@ documentation = "https://django-simple-feedback-form.readthedocs.io/"
 include = ["LICENSE.rst", "CHANGES.rst"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.6"
 django = ">=3.0"
 
 

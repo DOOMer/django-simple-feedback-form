@@ -1,6 +1,10 @@
 Version history
 ===============
 
+v2.0.1
+
+- Fix wrong dependency version in project file
+
 v2.0.0
 
 - Add support modern version of Django

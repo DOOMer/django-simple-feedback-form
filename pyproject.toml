@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-simple-feedback-form"
-version = "2.0"
+version = "2.0.1"
 description = "This is a Django application for providing a simple form for users to send emails to the administrators of your django-based site."
 homepage = "https://github.com/DOOMer/django-simple-feedback-form"
 repository = "https://github.com/DOOMer/django-simple-feedback-form"
